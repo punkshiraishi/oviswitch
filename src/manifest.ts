@@ -16,10 +16,10 @@ export async function getManifest() {
     action: {
       default_icon: './assets/black16.png',
     },
-    options_ui: {
-      page: './dist/options/index.html',
-      open_in_tab: true,
-    },
+    // options_ui: {
+    //   page: './dist/options/index.html',
+    //   open_in_tab: true,
+    // },
     background: {
       service_worker: './dist/background/index.mjs',
     },
