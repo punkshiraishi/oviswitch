@@ -10,12 +10,11 @@ export async function getManifest() {
   // can also be conditional based on your need
   const manifest: Manifest.WebExtensionManifest = {
     manifest_version: 3,
-    name: pkg.displayName || pkg.name,
+    name: pkg.name,
     version: pkg.version,
     description: pkg.description,
     action: {
-      default_icon: './assets/icon-512.png',
-      default_popup: './dist/popup/index.html',
+      default_icon: './assets/black16.png',
     },
     options_ui: {
       page: './dist/options/index.html',
@@ -25,13 +24,13 @@ export async function getManifest() {
       service_worker: './dist/background/index.mjs',
     },
     icons: {
-      16: './assets/icon-512.png',
-      48: './assets/icon-512.png',
-      128: './assets/icon-512.png',
+      16: './assets/black16.png',
+      32: './assets/black32.png',
+      48: './assets/black48.png',
+      128: './assets/black128.png',
     },
     permissions: [
       'tabs',
-      'storage',
       'activeTab',
     ],
     host_permissions: ['*://*/*'],

@@ -1,7 +1,7 @@
 import { dirname, join } from 'path'
 import type { HMRPayload, PluginOption } from 'vite'
 import fs from 'fs-extra'
-import { r, isWin } from './scripts/utils'
+import { isWin, r } from './scripts/utils'
 
 const targetDir = r('extension')
 
@@ -49,9 +49,9 @@ export const MV3Hmr = (): PluginOption => {
         if (importedModules) {
           for (const mod of importedModules) {
             code = code.replace(mod.url, normalizeViteUrl(isWin
-              ? mod.url.replace(/[A-Z]:\//,'').replace(/:/,'.')
+              ? mod.url.replace(/[A-Z]:\//, '').replace(/:/, '.')
               : mod.url,
-              mod.type)) // fix invalid colon in /@fs/C:, /@id/plugin-vue:export-helper
+            mod.type)) // fix invalid colon in /@fs/C:, /@id/plugin-vue:export-helper
             writeToDisk(mod.url)
           }
         }
@@ -60,15 +60,15 @@ export const MV3Hmr = (): PluginOption => {
           code = code
             .replace(/\/@vite\/client/g, '/dist/mv3client.mjs')
             .replace(/(\/\.vite\/deps\/\S+?)\?v=\w+/g, '$1')
-          if (isWin) { code = code
-            .replace(/(from\s+["']\/@fs\/)[A-Z]:\//g, '$1')
-          };
-
+          if (isWin) {
+            code = code
+              .replace(/(from\s+["']\/@fs\/)[A-Z]:\//g, '$1')
+          }
 
           const targetFile = normalizeFsUrl(isWin
-            ? urlModule.url.replace(/[A-Z]:\//,'').replace(/:/,'.')
+            ? urlModule.url.replace(/[A-Z]:\//, '').replace(/:/, '.')
             : urlModule.url,
-            urlModule.type) // fix invalid colon in /@fs/C:, /@id/plugin-vue:export-helper
+          urlModule.type) // fix invalid colon in /@fs/C:, /@id/plugin-vue:export-helper
           await fs.ensureDir(dirname(targetFile))
           await fs.writeFile(targetFile, code)
         }
