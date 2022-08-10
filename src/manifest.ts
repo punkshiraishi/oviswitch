@@ -16,6 +16,7 @@ export async function getManifest() {
     action: {
       default_icon: './assets/black16.png',
     },
+
     // options_ui: {
     //   page: './dist/options/index.html',
     //   open_in_tab: true,
@@ -36,7 +37,7 @@ export async function getManifest() {
     host_permissions: ['*://*/*'],
     content_scripts: [
       {
-        matches: ['http://*/*', 'https://*/*'],
+        matches: ['https://*.ovice.in/*'],
         js: ['./dist/contentScripts/index.global.js'],
       },
     ],
@@ -48,19 +49,20 @@ export async function getManifest() {
     ],
     content_security_policy: {
       extension_pages: isDev
+
         // this is required on dev for Vite script to load
         ? `script-src 'self' http://localhost:${port}; object-src 'self' http://localhost:${port}`
         : 'script-src \'self\'; object-src \'self\'',
     },
   }
 
-  if (isDev) {
-    // for content script, as browsers will cache them for each reload,
-    // we use a background script to always inject the latest version
-    // see src/background/contentScriptHMR.ts
-    delete manifest.content_scripts
-    manifest.permissions?.push('webNavigation')
-  }
+  // if (isDev) {
+  //   // for content script, as browsers will cache them for each reload,
+  //   // we use a background script to always inject the latest version
+  //   // see src/background/contentScriptHMR.ts
+  //   delete manifest.content_scripts
+  //   manifest.permissions?.push('webNavigation')
+  // }
 
   return manifest
 }
