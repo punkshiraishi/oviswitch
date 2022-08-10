@@ -10,7 +10,7 @@ export async function getManifest() {
   // can also be conditional based on your need
   const manifest: Manifest.WebExtensionManifest = {
     manifest_version: 3,
-    name: pkg.name,
+    name: pkg.displayName,
     version: pkg.version,
     description: pkg.description,
     action: {
