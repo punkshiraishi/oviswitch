@@ -2,6 +2,16 @@ import browser from 'webextension-polyfill'
 import { onMessage, sendMessage } from 'webext-bridge'
 
 browser.action.onClicked.addListener(async () => {
+  await excuteMain()
+})
+
+browser.commands.onCommand.addListener(async (command) => {
+  if (command === 'execute_main') {
+    await excuteMain()
+  }
+})
+
+async function excuteMain() {
   const [currentTab] = await browser.tabs.query({ active: true, lastFocusedWindow: true })
 
   if (currentTab.url?.includes('ovice.in')) {
@@ -24,7 +34,7 @@ browser.action.onClicked.addListener(async () => {
       }
     }
   }
-})
+}
 
 browser.tabs.onActivated.addListener(async ({ tabId }) => {
   const tab = await browser.tabs.get(tabId)

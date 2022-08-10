@@ -41,6 +41,15 @@ export async function getManifest() {
         js: ['./dist/contentScripts/index.global.js'],
       },
     ],
+    commands: {
+      execute_main: {
+        description: 'Jump to ovice or toggle mute state.',
+        suggested_key: {
+          default: 'Alt+O',
+          mac: 'Alt+O',
+        },
+      },
+    },
     web_accessible_resources: [
       {
         resources: ['dist/contentScripts/style.css'],
