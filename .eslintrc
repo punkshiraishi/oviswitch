@@ -1,6 +1,55 @@
 {
   "extends": "@antfu",
   "rules": {
-    "curly": ["error", "consistent"]
+    "curly": ["off"],
+    "@typescript-eslint/brace-style": ["off"],
+    "lines-around-comment": ["error", {
+      "allowBlockStart": false,
+      "beforeLineComment": true,
+      "applyDefaultIgnorePatterns": true
+    }],
+    "padded-blocks": ["off"],
+    "padding-line-between-statements": ["error",
+      {
+        "blankLine": "always",
+        "prev": ["case", "default"],
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["if"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["if"],
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["while"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["while"],
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["for"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["for"],
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["return"]
+      }
+    ]
   }
 }
