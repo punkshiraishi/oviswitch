@@ -17,10 +17,10 @@ export async function getManifest() {
       default_icon: './assets/black16.png',
     },
 
-    // options_ui: {
-    //   page: './dist/options/index.html',
-    //   open_in_tab: true,
-    // },
+    options_ui: {
+      page: './dist/options/index.html',
+      open_in_tab: true,
+    },
     background: {
       service_worker: './dist/background/index.mjs',
     },
@@ -33,6 +33,7 @@ export async function getManifest() {
     permissions: [
       'tabs',
       'activeTab',
+      'storage',
     ],
     host_permissions: ['*://*/*'],
     content_scripts: [

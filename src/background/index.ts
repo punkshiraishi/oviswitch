@@ -1,6 +1,30 @@
 import browser from 'webextension-polyfill'
 import { onMessage, sendMessage } from 'webext-bridge'
 
+browser.storage.onChanged.addListener(async (changes) => {
+  for (const [key, { newValue }] of Object.entries(changes)) {
+    if (key === 'workspace') {
+      if (newValue) {
+        await browser.action.setPopup({ popup: '' })
+
+      } else {
+        await browser.action.setPopup({ popup: './dist/popup/index.html' })
+      }
+    }
+  }
+});
+
+(async () => {
+  const { workspace } = await browser.storage.local.get('workspace')
+
+  if (workspace) {
+    await browser.action.setPopup({ popup: '' })
+
+  } else {
+    await browser.action.setPopup({ popup: './dist/popup/index.html' })
+  }
+})()
+
 browser.action.onClicked.addListener(async () => {
   await excuteMain()
 })
@@ -19,13 +43,12 @@ async function excuteMain() {
       await sendMessage('click-icon', undefined, { context: 'content-script', tabId: currentTab.id })
     }
 
-  } else {
-    const tabs = await browser.tabs.query({ url: '*://*.ovice.in/*' })
+    return
+  }
 
-    if (tabs.length === 0) {
-      return
-    }
+  const tabs = await browser.tabs.query({ url: '*://*.ovice.in/*' })
 
+  if (tabs.length > 0) {
     if (tabs[0].url?.includes('ovice.in')) {
       await browser.tabs.update(tabs[0].id, { active: true })
 
@@ -33,6 +56,14 @@ async function excuteMain() {
         await browser.windows.update(tabs[0].windowId, { focused: true })
       }
     }
+
+    return
+  }
+
+  const { workspace } = await browser.storage.local.get('workspace')
+
+  if (workspace) {
+    browser.tabs.create({ url: workspace })
   }
 }
 
