@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { workspace } from '~/logic/storage'
+import { validUrl } from '~/logic/url'
 
 const valid = computed(() => {
-  const regex = /^(http|https):\/\/[^ "]+$/
-
-  return regex.test(workspace.value)
+  return validUrl(workspace.value)
 })
 
 const empty = computed(() => !workspace.value)
@@ -31,9 +30,9 @@ function openWorkspace() {
         ]"
       >
       <div v-if="!empty && !valid" class="text-red-400">
-        有効な URL を入力してください
+        有効な oVice ワークスペース URL を入力してください
       </div>
-      <button v-if="valid" class="btn mt-2" @click="openWorkspace">
+      <button v-if="!empty && valid" class="btn mt-2" @click="openWorkspace">
         ワークスペースを開く
       </button>
     </div>

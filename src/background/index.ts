@@ -1,10 +1,11 @@
 import browser from 'webextension-polyfill'
 import { onMessage, sendMessage } from 'webext-bridge'
+import { validUrl } from '~/logic/url'
 
 browser.storage.onChanged.addListener(async (changes) => {
   for (const [key, { newValue }] of Object.entries(changes)) {
     if (key === 'workspace') {
-      if (newValue) {
+      if (validUrl(newValue)) {
         await browser.action.setPopup({ popup: '' })
 
       } else {
@@ -17,7 +18,7 @@ browser.storage.onChanged.addListener(async (changes) => {
 (async () => {
   const { workspace } = await browser.storage.local.get('workspace')
 
-  if (workspace) {
+  if (validUrl(workspace)) {
     await browser.action.setPopup({ popup: '' })
 
   } else {
@@ -62,7 +63,7 @@ async function excuteMain() {
 
   const { workspace } = await browser.storage.local.get('workspace')
 
-  if (workspace) {
+  if (validUrl(workspace)) {
     browser.tabs.create({ url: workspace })
   }
 }
