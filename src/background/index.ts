@@ -8,6 +8,7 @@ const store = {
   windowId: 0,
 }
 
+// workspace ID が設定画面から正しく入力されたときは popup が出ないようにする
 browser.storage.onChanged.addListener(async (changes) => {
   for (const [key, { newValue }] of Object.entries(changes)) {
     if (key === 'workspace') {
@@ -21,6 +22,7 @@ browser.storage.onChanged.addListener(async (changes) => {
   }
 });
 
+// 起動時に正しい workspace ID が取得できたら popup が出ないようにする
 (async () => {
   const { workspace } = await browser.storage.local.get('workspace')
 
@@ -32,10 +34,12 @@ browser.storage.onChanged.addListener(async (changes) => {
   }
 })()
 
+// アイコンクリック時はメインの処理を実行する
 browser.action.onClicked.addListener(async () => {
   await excuteMain()
 })
 
+// ショートカットと処理の紐づけ
 browser.commands.onCommand.addListener(async (command) => {
   if (command === 'execute_main') {
     await excuteMain()
@@ -78,6 +82,7 @@ async function excuteMain() {
   }
 }
 
+// タブを移動したときの処理
 browser.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
   const tab = await browser.tabs.get(tabId)
 
@@ -93,6 +98,7 @@ browser.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
   }
 })
 
+// content script からアイコン変更の message を受け取ったときの処理
 onMessage('change-icon', ({ data }) => {
   const { muted } = data
 
@@ -104,6 +110,7 @@ onMessage('change-icon', ({ data }) => {
   }
 })
 
+// ovice に移動する直前に見ていた tab に移動する
 async function backToPrevious() {
   const [currentTab] = await browser.tabs.query({ active: true, lastFocusedWindow: true })
 
