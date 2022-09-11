@@ -50,6 +50,13 @@ export async function getManifest() {
           mac: 'Alt+O',
         },
       },
+      back_to_previous: {
+        description: 'Back to previous tab.',
+        suggested_key: {
+          default: 'Alt+P',
+          mac: 'Alt+P',
+        },
+      },
     },
     web_accessible_resources: [
       {

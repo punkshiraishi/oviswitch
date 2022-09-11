@@ -2,6 +2,12 @@ import browser from 'webextension-polyfill'
 import { onMessage, sendMessage } from 'webext-bridge'
 import { validUrl } from '~/logic/url'
 
+// ovice に移動する直前のタブを知りたいので tab を移動するたびにここに保存しておく。
+const store = {
+  previousTabId: 0,
+  windowId: 0,
+}
+
 browser.storage.onChanged.addListener(async (changes) => {
   for (const [key, { newValue }] of Object.entries(changes)) {
     if (key === 'workspace') {
@@ -33,6 +39,10 @@ browser.action.onClicked.addListener(async () => {
 browser.commands.onCommand.addListener(async (command) => {
   if (command === 'execute_main') {
     await excuteMain()
+  }
+
+  if (command === 'back_to_previous') {
+    await backToPrevious()
   }
 })
 
@@ -68,7 +78,7 @@ async function excuteMain() {
   }
 }
 
-browser.tabs.onActivated.addListener(async ({ tabId }) => {
+browser.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
   const tab = await browser.tabs.get(tabId)
 
   if (tab.url?.includes('ovice.in')) {
@@ -76,6 +86,10 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
 
   } else {
     browser.action.setIcon({ path: '/assets/black16.png' })
+
+    // ovice に移動する直前のタブを知りたいので常に ovice 以外の tab ID を保存しておく
+    store.previousTabId = tabId
+    store.windowId = windowId
   }
 })
 
@@ -89,3 +103,15 @@ onMessage('change-icon', ({ data }) => {
     browser.action.setIcon({ path: '/assets/blue16.png' })
   }
 })
+
+async function backToPrevious() {
+  const [currentTab] = await browser.tabs.query({ active: true, lastFocusedWindow: true })
+
+  if (currentTab.url?.includes('ovice.in') && store.previousTabId) {
+    await browser.tabs.update(store.previousTabId, { active: true })
+
+    if (store.windowId) {
+      await browser.windows.update(store.windowId, { focused: true })
+    }
+  }
+}
