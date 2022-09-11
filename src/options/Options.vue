@@ -35,6 +35,28 @@ function openWorkspace() {
       <button v-if="!empty && valid" class="btn mt-2" @click="openWorkspace">
         ワークスペースを開く
       </button>
+
+      <div class="mt-10 flex flex-col space-y-2">
+        <div class="font-bold">
+          Short cuts
+        </div>
+        <div class="flex flex-row space-x-2">
+          <div class="bg-gray-300 rounded px-1">
+            Alt + o
+          </div>
+          <div>
+            Jump to oVice tab
+          </div>
+        </div>
+        <div class="flex flex-row space-x-2">
+          <div class="bg-gray-300 rounded px-1">
+            Alt + p
+          </div>
+          <div>
+            Back to previous tab
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </template>
