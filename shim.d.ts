@@ -7,7 +7,7 @@ declare module 'webext-bridge' {
     // see https://github.com/antfu/webext-bridge#type-safe-protocols
     'check-muted': undefined
     'click-icon': undefined
-    'change-icon': { muted: boolean }
+    'change-icon': { status: 'pending' | 'muted' | 'active' | 'default' }
     'get-current-tab': ProtocolWithReturn<{ tabId: number }, { title?: string }>
   }
 }

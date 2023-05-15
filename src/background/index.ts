@@ -100,13 +100,23 @@ browser.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
 
 // content script からアイコン変更の message を受け取ったときの処理
 onMessage('change-icon', ({ data }) => {
-  const { muted } = data
+  const { status } = data
 
-  if (muted) {
-    browser.action.setIcon({ path: '/assets/red32.png' })
+  switch (status) {
+    case 'pending':
+      browser.action.setIcon({ path: '/assets/gray32.png' })
+      break
 
-  } else {
-    browser.action.setIcon({ path: '/assets/blue32.png' })
+    case 'muted':
+      browser.action.setIcon({ path: '/assets/red32.png' })
+      break
+
+    case 'active':
+      browser.action.setIcon({ path: '/assets/blue32.png' })
+      break
+
+    default:
+      break
   }
 })
 
