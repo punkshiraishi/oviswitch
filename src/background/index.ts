@@ -90,7 +90,7 @@ browser.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
     await sendMessage('check-muted', undefined, { context: 'content-script', tabId })
 
   } else {
-    browser.action.setIcon({ path: '/assets/black16.png' })
+    browser.action.setIcon({ path: '/assets/black32.png' })
 
     // ovice に移動する直前のタブを知りたいので常に ovice 以外の tab ID を保存しておく
     store.previousTabId = tabId
@@ -103,10 +103,10 @@ onMessage('change-icon', ({ data }) => {
   const { muted } = data
 
   if (muted) {
-    browser.action.setIcon({ path: '/assets/red16.png' })
+    browser.action.setIcon({ path: '/assets/red32.png' })
 
   } else {
-    browser.action.setIcon({ path: '/assets/blue16.png' })
+    browser.action.setIcon({ path: '/assets/blue32.png' })
   }
 })
 

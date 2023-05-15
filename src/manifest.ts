@@ -14,7 +14,7 @@ export async function getManifest() {
     version: pkg.version,
     description: pkg.description,
     action: {
-      default_icon: './assets/black16.png',
+      default_icon: './assets/black512.png',
     },
 
     options_ui: {
@@ -25,10 +25,10 @@ export async function getManifest() {
       service_worker: './dist/background/index.mjs',
     },
     icons: {
-      16: './assets/black16.png',
+      16: './assets/black32.png',
       32: './assets/black32.png',
-      48: './assets/black48.png',
-      128: './assets/black128.png',
+      48: './assets/black512.png',
+      128: './assets/black512.png',
     },
     permissions: [
       'tabs',
