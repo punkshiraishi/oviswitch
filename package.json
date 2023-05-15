@@ -1,7 +1,7 @@
 {
   "name": "oviswitch",
   "displayName": "oViSwitch",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Focus your oVice tab with one click.",
   "private": true,
   "scripts": {
